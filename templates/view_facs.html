@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block main %}
+  <div style="position: absolute;margin-left: 600px;margin-top: 10px"><a href="{% url addfaculty%}" class="submit">Add Faculty</a></div>
+  <h2 class="inner">Faculties</h2>
+<table class='table'>
+     <thead><tr><td>Faculty</td><td>Company</td><td>Programme</td><td>Course</td><td>Semester</td><td>Batch-Section-No. of Students</td></tr></thead>
+    {% for fac in facs %}
+      <tr class="{% cycle '' 'odd' %}"><td>{{ fac.faculty }}</td><td>{{ fac.company }}</td><td>{{ fac.programme }}</td><td>{{ fac.course}}</td><td>{{ fac.semester }}</td><td>{{ fac.batch_no }} - {{ fac.section_no }} - {{ fac.no_of_students }}</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

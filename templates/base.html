@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<title>WILP</title>
+	<script type="text/javascript" src="/wilpd/static/js/jquery.js"></script>
+	<script type="text/javascript" src="/wilpd/static/js/menu.js"></script>
+  <script type="text/javascript" src="/wilpd/static/js/wilp.js"></script>
+  <script type="text/javascript">
+  {% block script %}
+
+  {% endblock %}
+</script>
+	<link rel="stylesheet" href="/wilpd/static/css/main.css" type="text/css" />
+  {% block extralinks %}
+  {% endblock %}
+</head>
+<body>
+	<div id="bg">
+		<div class="wrap">
+
+			<!-- logo -->
+			<h1><a href="{% url home %}">WILPD</a></h1>
+			<!-- /logo -->
+
+			<!-- menu -->
+			<div id="mainmenu">
+        {% if user.is_authenticated %}
+          <span style="color: yellow;position: absolute;margin-top: 5px;margin-left: -450px;font-weight: bold;"> | &nbsp;&nbsp;&nbsp;Welcome , {% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user.username }}{% endif %}</span>
+        {% endif %}
+				<ul id="menu">
+					<li><a href="/">Home</a></li>
+					{% if user.is_authenticated %}
+            <li><a href="{% url logout %}">Logout</a></li>
+            <li><a href="">Change Password</a></li>
+          {% endif %}
+					<li><a href="">Instructions</a></li>
+				</ul>
+			</div>
+			<!-- /menu -->
+
+			<!-- pitch -->
+			<div id="pitch" style="height: 50px">
+
+			</div>
+			<!-- /pitch -->
+      <div id='content'>
+			<!-- main -->
+			<div id="main" style="min-height: 300px">
+      {% if message %}
+      <div id='message'>{{ message }}</div>
+      <br>
+        {% endif %}
+        {% block main %}
+     {% endblock %}
+			</div>
+			<!-- /main -->
+
+			<!-- side -->
+      {% if user.is_authenticated %}
+			<div id="side">
+				<h4>Navigation</h4>
+
+				<ul class="side-menu">
+					<li><a href="{% url profile %}">My Details</a></li>
+					<li><a href="{% url advcompanies %}">Companies</a></li>
+					<li><a href="{% url viewcomcoords %}">Company Coordinators</a></li>
+					<li><a href="{% url viewfacs %}">Faculty</a></li>
+					<li><a href="{% url viewstuds %}">Student Batches</a></li>
+				</ul>
+
+			</div>
+      {% endif %}
+			<!-- /side -->
+		</div>
+    <!-- /content -->
+    </div>
+		<!-- footer -->
+		<div id="footer">
+			<div id="footerbg">
+				<div class="wrap">
+
+					<!-- footer links -->
+					<p id="footer_menu">
+						
+
+						<!-- credit link -->
+						
+					</p>
+					<!-- /footer links -->
+
+					<p id="copy">WILPD <span></span></p>
+
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+		<!-- /footer -->
+
+	</div>
+</body>
+</html>

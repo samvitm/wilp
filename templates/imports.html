@@ -1,0 +1,30 @@
+{% extends 'admin/base_site.html' %}
+
+{% block title %}Import data from excel sheets{% endblock %}
+
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+
+<a href="/admin/">Home</a> &rsaquo;
+<a href="{% url imports %}">Imports</a>
+</div>
+{% endblock %}
+
+{% block content %}
+  <h1>Import excel sheets</h1>
+  <div id="settings_form" style="padding:40px;">
+  <form action="{% url imports %}" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {% for field in form %}
+        
+        <div class="fieldWrapper" style="padding:10px;">
+            {{ field.errors }}
+             {{ field.label_tag }} : {{ field }}
+             <p class="help">{{ field.help_text }} </p>
+        </div>
+    {% endfor %}
+    <p><input type="submit" style="margin-top:20px;margin-left:10px;width:150px;height:30px;" value="Import"/></p>
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block script %}
+  
+  function generate_options(values)
+{
+  var options = '<option selected="selected" value="">---------</option>';
+  for(i=0;i<values.length;i++)
+  {
+    options+='<option value="'+values[i][0]+'">'+values[i][1]+'</option>';
+  }
+
+  return options;
+}
+
+function filterprogramme(company)
+{
+
+  $.get(baseurl+'get_progs/',{'company':company },function(progs){
+   $("#id_programme").html(generate_options(progs));
+  });
+}
+
+function filtercourses(programme)
+{
+
+  $.get(baseurl+'get_courses/',{'programme':programme },function(courses){
+   $("#id_course").html(generate_options(courses));
+  });
+}
+
+function binds()
+{
+
+  $('#id_company').change(function(){
+    filterprogramme($(this).val());
+  });
+
+   $('#id_programme').change(function(){
+    filtercourses($(this).val());
+  });
+}
+
+
+$(document).ready(function(){binds();});
+{% endblock %}
+{% block main %}
+  <h2 class='inner'>Add Faculty</h2>
+
+  {% if sform %}
+   <p>Fill in the details below along with the PAN number, if faculty with entered PAN number already exists it will be filled in automatically</p>
+  <form action="{% url addfaculty %}" method="post" id='facform'>
+    {% csrf_token %}
+    <table id='profiletable' cellpadding="10px" cellspacing="20px">
+    {% for field in sform %}
+      <tr><td class="infotag">{{ field.label }}</td><td class='info'>{{ field }}</td></tr>
+    {% endfor %}
+    <tr><td></td><td><input type="submit"class="submit" value="Submit" name='submit1'></td></tr>
+    </table>
+  {% else %}
+
+   {% if fform %}
+    {% endif %}
+  {% if sform2 %}
+     <h3 class="inner">Course details</h3>
+    <hr>
+    <form action="{% url addfaculty %}" method="post" id='facform'>
+    {% csrf_token %}
+    <table id='profiletable' cellpadding="10px" cellspacing="20px">
+    {% for field in sform2 %}
+      <tr><td class="infotag">{{ field.label }}</td><td class='info'>{{ field }}</td><td>{{ field.errors }}</td></tr>
+    {% endfor %}
+    </table>
+  {% endif %}
+
+  {% if fform %}
+    <h3 class="inner">Personal details</h3>
+    <hr>
+    <table id='profiletable' cellpadding="10px" cellspacing="20px">
+    {% for field in fform %}
+      <tr><td class="infotag">{{ field.label }}</td><td class='info'>{{ field }}</td><td>{{ field.errors }}</td></tr>
+    {% endfor %}
+      <tr><td></td><td><input type="submit"class="submit" value="Submit" name='submit2'></td></tr>
+    </table>
+  </form>
+  {% endif %}
+{% endif %}
+
+{% endblock %}

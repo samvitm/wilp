@@ -1,0 +1,33 @@
+{% extends 'admin/base_site.html' %}
+
+{% block title %}Reports{% endblock %}
+
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+
+<a href="/admin/">Home</a> &rsaquo;
+<a href="{% url reports %}">Reports</a>
+</div>
+{% endblock %}
+{% block content %}
+  <h1>View Reports</h1>
+  <div id="settings_form" style="padding:40px;">
+  <style type="text/css">
+      #settings_form li
+      {
+        font-size: 14px;
+        padding: 10px;
+        font-weight: bold;
+      }
+  </style>
+
+  <ul>
+    <li><a href="/admin/faculty/facultysem/">Faculty Report</a></li>
+    <li><a href="/admin/coordinator/companycoordinator/">Company Coordinator</a></li>
+    <li><a href="/admin/coordinator/coordmanaged/">Companies managed by BITS Coordinator</a></li>
+    <li><a href="/admin/studbatch/studentbatch/">Student details</a></li>
+    <li><a href="/admin/programme/prorammesem/">Programme wise companies</a></li>
+  </ul>
+  </div>
+{% endblock %}

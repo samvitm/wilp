@@ -1,0 +1,38 @@
+{% extends 'admin/base_site.html' %}
+
+{% block title %}BITS Coordinator Settings{% endblock %}
+
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+
+<a href="/">Home</a> &rsaquo; 
+<a href="{% url settings %}">Settings</a>
+</div>
+{% endblock %}
+
+{% block content %}
+
+
+<h1>BITS Coordinator Settings</h1>
+
+
+
+<div id="settings_form" style="padding:40px;">
+<form action="{% url settings %}" method="post">
+{% csrf_token %}
+    {% for field in form %}
+        <div class="fieldWrapper" style="padding:10px;">
+            {{ field.errors }}
+             {{ field }} {{ field.label_tag }}
+             <p class="help">{{ field.help_text }} </p>
+        </div>
+    {% endfor %}
+    <p><input type="submit" style="margin-top:20px;margin-left:40px;width:150px;height:30px;" value="Save settings"/></p>
+</form>
+</div>
+
+
+			
+
+{% endblock %}

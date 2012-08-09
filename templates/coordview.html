@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block main %}
+  <div style="position: absolute;margin-left: 600px;margin-top: 10px"><a href="{% url companycoord %}" class="submit">Add Coordinator</a></div>
+  <h2 class="inner">Company Coordinators</h2>
+    {% for comc in comcs %}
+                 {% if forloop.first %}
+                  <table class='table'>
+                  <thead><tr><td>Company</td><td>Name</td><td>Address</td><td>Semester</td><td>Phone/Mobile</td><td>Email</td></tr></thead>
+                  <tr class="{% cycle '' 'odd' %}"><td>{{ comc.company }}</td><td>{{ comc.name }}</td><td>{{ comc.address }}</td><td>{{ comc.semester.all|first }}</td><td>{{ comc.phone }} / {{ comc.mobile }}</td><td>{{ comc.email }}</td></tr>
+                  {% else %}
+                  <tr class="{% cycle 'odd' '' %}"><td>{{ comc.company }}</td><td>{{ comc.name }}</td><td>{{ comc.address }}</td><td>{{ comc.semester.all|first }}</td><td>{{ comc.phone }} / {{ comc.mobile }}</td><td>{{ comc.email }}</td></tr>
+                {% endif %}
+    {% endfor %}
+   </table>
+
+{% endblock %}

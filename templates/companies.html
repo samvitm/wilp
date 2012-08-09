@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block extralinks %}
+<link type="text/css" rel="stylesheet" href="/wilpd/static/css/jquery-ui.css" />
+ <script type="text/javascript" src="/wilpd/static/js/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="/wilpd/static/js/jquery.scrollTo-min.js"></script>
+  <script type="text/javascript" src="/wilpd/static/js/ui.multiselect.js"></script>
+  <link rel="stylesheet" href="/wilpd/static/css/ui.multiselect.css" type="text/css" />
+{% endblock %}
+
+{% block script %}
+
+$(function(){
+  // choose either the full version
+  $(".multiselect").multiselect();
+  // or disable some features
+  
+});
+{% endblock %}
+{% block main %}
+   {% if form %}
+    <h2 class="inner">Add Companies</h2>
+    <form action='' method='post'>
+    {% csrf_token %}
+      {{ form }}
+      <br>
+    <span><input type="submit"class="submit" value="Submit"></span>
+    </form>
+  {% endif %}
+  <br><br><br><br>
+  <h2 class="inner">Companies Managed</h2>
+    {% for comp in companies %}
+            {% for company in comp.companies.all %}
+               {% if forloop.first %}
+              <h3>{{ comp.semester }}</h3>
+                <table class='table'>
+                <thead><tr><td>Company name</td><td>Place</td></tr></thead>
+                <tr class="{% cycle '' 'odd' %}"><td>{{ company.name }}</td><td>{{ company.place }}</td></tr>
+                {% else %}
+                <tr class="{% cycle 'odd' '' %}"><td>{{ company.name }}</td><td>{{ company.place }}</td></tr>
+              {% endif %}
+              {% endfor %}
+        </table>
+    {% endfor %}
+   
+
+
+
+
+
+{% endblock %}

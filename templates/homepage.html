@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<title>WILP</title>
+	<script type="text/javascript" src="/wilpd/static/js/jquery-1.4.1.min.js"></script>
+	<script type="text/javascript" src="/wilpd/static/js/menu.js"></script>
+	<script type="text/javascript" src="/wilpd/static/js/fancyzoom.min.js"></script>
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function() {
+			$('div.photo a').fancyZoom({directory: '/wilpd/static/images/zoom', scaleImg: true, closeOnClick: true});
+		});
+	</script>
+	<link rel="stylesheet" href="/wilpd/static/css/home.css" type="text/css" />
+</head>
+<body>
+	<div id="bg" style="height: 280px">
+		<div class="wrap">
+
+			<!-- logo -->
+			<h1><a href="{% url home %}">WILPD</a></h1>
+			<!-- /logo -->
+
+			<!-- menu -->
+			<div id="mainmenu">
+			  <ul id="menu">
+					<li><a href="{% url home %}">Home</a></li>
+					{% if user.is_authenticated %}
+            <li><a href="{% url logout %}">Logout</a></li>
+          {% endif %}
+					<li><a href="">Instructions</a></li>
+				</ul>
+			</div>
+			<!-- /menu -->
+
+			<!-- pitch -->
+			<div id="pitch">
+				<div id="slideshow">
+
+					<!-- 1st frame -->
+					<div class="active">
+						<img src="/wilpd/static/images/pitch/pitch1.jpg" alt="" />
+						<div class="overlay transparent">
+							<h2>Work Intergrated Learning Programs</h2>
+							<!--<p></p> -->
+						</div>
+					</div>
+					
+
+				</div>
+			</div>
+			<!-- /pitch -->
+
+			<!-- main -->
+			<div id="main">
+        {% block main %}
+				<div id="intro" style="min-height: 300px">
+					<h2>Welcome</h2>
+					<p>BITS Coordinators please login here.</p>
+
+          <form action="{% url login %}" method="post">
+            <br/>
+            <span style="color: red;">{{ message }}</span>
+            {% csrf_token %}
+					<p>
+
+						<label for="username">Username:</label>
+						<input type="text" id="username" name="username" class="text">
+					</p>
+					<p>
+						<label for="password">Password:</label>
+						<input type="password" id="password" name="password" class="text">
+					</p>
+
+					<p>
+						<input type="submit" value="Login" class="submit">
+					</p>
+				</form>
+
+				</div>
+
+				<!-- bits -->
+				<!-- /bits -->
+      {% endblock %}
+			</div>
+			<!-- /main -->
+
+			<!-- side -->
+			<div id="side">
+        {% block side %}
+				<h4>Updates</h4>
+
+				<div class="news">
+					<h5><a href="#">Update</a></h5>
+					<p>New portal for WILPD Coordinators</p>
+				</div>
+
+				
+        {% endblock %}
+			</div>
+			<!-- /side -->
+		</div>
+
+		<!-- footer -->
+		<div id="footer">
+			<div id="footerbg">
+				<div class="wrap">
+
+					<!-- footer links -->
+					<p id="footer_menu">
+						
+
+						<!-- credit link
+						<a href="http://www.solucija.com" title="Free CSS Templates">Solucija</a>
+						-->
+					</p>
+					<!-- /footer links -->
+
+					<p id="copy">WILPD <span></span></p>
+
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+		<!-- /footer -->
+
+	</div>
+</body>
+</html>

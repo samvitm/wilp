@@ -1,0 +1,47 @@
+<html>
+<head>
+<style type="text/css">
+
+.row1 
+{
+	padding: 2px;
+	border-bottom: 1px solid;
+	border-bottom-color: #000;
+	text-align: center;
+	
+	
+}
+
+.row2 
+{
+	background-color: #DDD;
+	padding: 2px;
+	padding-top: 3px;
+	border-bottom: 1px solid;
+	border-bottom-color: #000;
+	text-align: center;
+}
+
+</style>
+</head>
+<body>
+
+<p>To,</p>
+<p>Deputy Director (Off-Campus Programmes)<br /> BITS, Pilani</p>
+<p>Date :</p>
+<p>Sir,</p>
+<p>SUB :Payment of Honorarium for</p>
+<p>I seek your approval for the payment of honorarium towards teaching and evaluation of courses conducted by our institute, by demand draft drawn in the name of the person concerned, payable at as per details given below</p>
+
+<table>
+{% for fac in facs %}
+  <tr  class="{% cycle 'row1' 'row2' %}">
+    <td> {{ fac.fac_name }} </td><td> {{ fac.programme }} </td><td> {{ fac.course }} </td>
+  </td>
+{% endfor %}
+</table>
+
+</body>
+</html>
+
+

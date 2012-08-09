@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block main %}
+  <div style="position: absolute;margin-left: 600px;margin-top: 20px"><a class="submit" href="{% url editprofile  %}">Edit Details</a></div>
+  <table id='profiletable' cellpadding="10px" cellspacing="20px">
+  <tr><td class="infotag">Username</td><td class='info'>{{ user.username }}</td> </tr>
+  <tr><td class="infotag">Fullname</td><td class='info'>{% if user.get_full_name %}{{ coord.get_full_name }} {% else %} Not given{% endif %}</td>
+  <tr><td class="infotag">Email</td><td class='info'>{{ user.email }}</td></tr>
+  <tr><td class="infotag">Address</td><td class='info'>{{ coord.address }}</td></tr>
+  <tr><td class="infotag">Gender</td><td class='info'>{% ifequal coord.gender "M"  %}Male{% else %}Female{% endifequal %}</td></tr>
+  <tr><td class="infotag">Phone</td><td class='info'>{{ coord.phone }}</td></tr>
+  <tr><td class="infotag">Mobile</td><td class='info'>{{ coord.mobile }}</td></tr>
+  <tr><td class="infotag">Fax</td><td class='info'>{{ coord.fax }}</td></tr>
+  <tr><td class="infotag">Qualification</td><td class='info'>{{ coord.qualification }}</td></tr>
+  <tr><td class="infotag">Previous Experience</td><td class='info'>{{ coord.previous_experience }}</td></tr>
+  </table>
+
+{% endblock %}

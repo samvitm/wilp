@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block main %}
+ {% if form %}
+  <form action="" method="post">
+  {% csrf_token %}
+    <h2 class="inner">Add Company Coordinator</h2>
+    <table id='profiletable'>
+    {% for field in form %}
+      <tr><td class="infotag">{{ field.label }}</td><td class='info'>{{ field }}</td><td class='error'>{{ field.errors }}</td></tr>
+    {% endfor %}
+      <tr><td></td><td><input type="submit"class="submit" value="Submit"></td></tr>
+    </table>
+  </form>
+ {% endif %}
+{% endblock %}

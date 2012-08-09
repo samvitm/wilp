@@ -1,0 +1,30 @@
+{% extends 'admin/base_site.html' %}
+{% block title %} Faculty Report {% endblock %}
+{% block content %}
+
+
+{% block report_title %} <h1> Faculty Report </h1> {% endblock %}	
+ 
+<form>
+
+	<select name="company">
+		{% for company in companies %}
+			<option>{{ company }}	</option>
+		{% endfor %}	
+	</select>
+	
+	<select name="programme">
+		{% for prog in progs %}
+			<option>{{ prog }}</option>
+		{% endfor %}	
+	</select>
+	
+	
+
+</form>
+
+
+
+			
+
+{% endblock %}

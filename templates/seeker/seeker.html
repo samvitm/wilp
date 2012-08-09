@@ -1,0 +1,144 @@
+{% extends base_template %}
+
+{% block seeker %}
+<script type="text/javascript">
+var base_url = '{{ search_url }}';
+
+var fields = [{% for disp in field_info %}
+	{ field:'{{ disp.field }}', label:'{{ disp.label }}', type:'{{ disp.type }}', formatted:{{ disp.formatted|yesno:"true,false" }}, sortable:{{ disp.sortable|yesno:"true,false" }} }{% if not forloop.last %},{% endif %}{% endfor %}
+];
+
+var field_info = {};
+
+var search = new Search( {
+	url: '{{ search_url }}',
+	imageDir: '{{ seeker_media }}'
+} );
+
+var table = new Table( {
+	url: '{{ search_url }}',
+	model: fields,
+{% if search %}
+	initial: [],
+{% else %}
+	initial: [{% for f in initial %}'{{ f }}'{% if not forloop.last %},{% endif %}{% endfor %}],
+{% endif %}
+	imageDir: '{{ seeker_media }}'
+} );
+
+{% if search %}
+$(document).ready( function() {
+	var s = JSON.parse( '{{ search.flatten|safe }}' );
+	var num = 0;
+	table.setDisplayFields( s.display_fields, true );
+	table.setSortField( s.sort_field );
+	for( var k = 0; k < s.criteria.length; k++ ) {
+		$.getJSON( '{{ search_url }}info/', {'field':s.criteria[k].field}, function(data,status) {
+			field_info[data.field] = data;
+			num++;
+			if( num >= s.criteria.length ) {
+				for( var i = 0; i < s.criteria.length; i++ ) {
+					var f = s.criteria[i].field;
+					search.addCriteria( field_info[f], s.criteria[i].operator, s.criteria[i].values );
+				}
+			}
+		} );
+	}
+} );
+{% endif %}
+</script>
+
+<div id="search" style="position:relative;">
+	<h2>Search Criteria</h2>
+	
+	<div id="fields">
+		Select a search field:
+		<select id="filterField">{% for name,fields in search_groups %}
+			<optgroup label="{{ name }}">{% for f in fields %}
+				<option value="{{ f.field }}">{{ f.label }}</option>{% endfor %}
+			</optgroup>{% endfor %}
+		</select>
+		<input type="button" value="Add" id="addBtn" />
+		<input type="button" value="Clear Filters" id="clearBtn" />
+		{% if saved_searches %}
+		<span class="spaced">or choose a saved search:</span>
+		<select id="savedSearchSelect">
+			<option value=""></option>{% for s in saved_searches %}
+			<option value="{{ s.id }}"{% ifequal s.id search_id %} selected="selected"{% endifequal %}>{{ s.name|escape }}</option>{% endfor %}
+		</select>
+		<input id="loadSearchBtn" type="button" value="Load" />
+		{% endif %}
+	</div>
+	
+	<div id="filters">
+		<div id="selector">
+		</div>
+		<table id="filterTable">
+		</table>
+	</div>
+	
+	<div id="buttons">
+		<table cellpadding="0" cellspacing="0"><tr>
+			<td><img id="collapseBtn" src="{{ seeker_media }}collapse.gif" alt="Collapse" /></td>
+			<td><a href="#search" id="searchBtn">Search</a></td>
+			<td><a href="#count" id="countBtn">Count</a></td>
+			<td>
+				<img id="searchLoading" src="{{ seeker_media }}loading.gif" alt="" style="display:none;" />
+				<span id="countSpan" style="display:none;">This search will return <span id="searchCount"></span> records.</span>
+			</td>
+		</table>
+	</div>
+	
+	<div id="results">
+		<h2>Search Results</h2>
+		<div class="buttons">
+			<select id="displaySelect">
+				<option value="" selected="selected">Select Display Fields</option>{% for name,fields in display_groups %}
+				<optgroup label="{{ name }}">{% for disp in fields %}
+					<option value="{{ disp.field }}">{% if disp.initial %}&bull; {% endif %}{{ disp.label }}</option>{% endfor %}
+				</optgroup>{% endfor %}
+			</select>
+			<input id="saveBtn" type="button" value="Save Search" />
+			<span id="saveForm" style="display:none;">
+				<input id="searchName" type="text" size="20" />
+				<input id="cancelSaveBtn" type="button" value="Cancel" />
+				<input id="doSaveBtn" type="button" value="Save" />
+			</span>
+			<select id="exportFormatSelect">
+				<option value="csv">CSV</option>
+				<option value="pdf">PDF</option>
+			</select>
+			<input id="exportBtn" type="button" value="Export Results" />
+			<form id="exportForm" action="{{ search_url }}render/" method="post">
+				<input id="exportFormat" type="hidden" name="format" value="" />
+				<input id="exportSearch" type="hidden" name="search" value="" />
+			</form>
+		</div>
+		<div class="scrollable">
+			<table id="resultsTable" cellpadding="0" cellspacing="0">
+			</table>
+		</div>
+		<div id="pager">
+			<table cellpadding="0" cellspacing="0" width="100%">
+				<td style="width:33%;">
+					Display <select id="pageSize">{% for size in page_sizes %}
+						<option value="{{ size }}">{{ size }}</option>{% endfor %}
+						<option value="-1">All</option>
+					</select> per page
+				</td>
+				<td style="width:33%;text-align:center;">
+					<form id="pagerForm" style="display:none;">
+						<a href="#" id="prevPageBtn">&larr;</a>
+						Page <input id="pageInput" type="text" size="3" value="1" /> of <span id="pageCount"></span>
+						<a href="#" id="nextPageBtn">&rarr;</a>
+					</form>
+				</td>
+				<td style="width:33%;text-align:right;">
+					<img id="resultLoading" src="{{ seeker_media }}loading.gif" alt="" style="display:none;" />
+					<div id="resultCount" style="display:none;">Displaying rows <span id="rowStart"></span> - <span id="rowEnd"></span> of <span id="rowTotal"></span></div>
+				</td>
+			</table>
+		</div>
+	</div>
+</div>
+{% endblock %}

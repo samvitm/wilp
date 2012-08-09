@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block main %}
+  <div style="position: absolute;margin-left: 600px;margin-top: 10px"><a href="{% url addstudbatch %}" class="submit">Add A student batch</a></div>
+  <h2 class="inner">Student Batches</h2>
+    {% for stud in studlist %}
+                 {% if forloop.first %}
+                  <table class='table'>
+                  <thead><tr><td>Company</td><td>Programm</td><td>Batch</td><td>Semester</td><td>Male - Onroll/Registered</td><td>Female - Onroll/Registered</td></tr></thead>
+                  <tr class="{% cycle '' 'odd' %}"><td>{{ stud.company }}</td><td>{{ stud.programme }}</td><td>{{ stud.batch }}</td><td>{{ stud.sem }}</td><td>{{ stud.males }}/{{ stud.reg_male }}</td><td>{{ stud.females }}/{{ stud.reg_female }}</td></tr>
+                  {% else %}
+                  <tr class="{% cycle 'odd' '' %}"><td>{{ stud.company }}</td><td>{{ stud.programme }}</td><td>{{ stud.batch }}</td><td>{{ stud.sem }}</td><td>{{ stud.males }}/{{ stud.reg_male }}</td><td>{{ stud.females }}/{{ stud.reg_female }}</td></tr>
+                {% endif %}
+
+
+      {% endfor %}
+   </table>
+
+{% endblock %}

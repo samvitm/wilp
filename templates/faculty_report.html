@@ -1,0 +1,85 @@
+<html>
+<head>
+<style type="text/css">
+
+ body
+ {
+   font-family: arial;
+ }
+.row1
+{
+	border-bottom: 1px solid;
+	border-bottom-color: #000;
+	text-align: center;
+  padding-top: 4px;
+  padding-bottom:2px;
+	
+	
+}
+
+.row2 
+{
+	background-color: #dddddd;
+	padding-top: 4px;
+  padding-bottom:2px;
+	border-bottom: 1px solid;
+	border-bottom-color: #000;
+	text-align: center;
+    
+}
+
+table
+{
+  margin-top: 30px;
+
+}
+
+#header
+{
+  border-bottom: 1px solid;
+  border-color: #000;
+  border-top: 1px solid;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+#total
+{
+  position: relative;
+  margin-top: 30px;
+  margin-left: 560px;
+  font-size: 12px;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<p>To,</p>
+<p>Deputy Director (Off-Campus Programmes)<br /> BITS, Pilani</p>
+<p>Date : {{ today|date:"D d M Y" }}</p>
+<p>Sir,</p>
+<p>Subject : Payment of Honorarium {% if company %}for {{ company }}{% endif %}{% if programme %},{{ programme }}{% endif %}{% if course %},{{ course }}{% endif %}</p>
+<p>I seek your approval for the payment of honorarium towards teaching and evaluation of courses conducted by our institute, by demand draft drawn in the name of the person concerned, payable at as per details given below</p>
+
+<table>
+<thead ><tr id='header'><td>Faculty Name</td><td>Programme</td><td>Course</td><td>Company</td><td>Honorarium</td></tr></thead>
+{% for fac in facs %}
+  <tr  class="{% cycle 'row1' 'row2' %}">
+    <td> {{ fac.faculty }} </td><td> {{ fac.programme }} </td><td> {{ fac.course }} </td><td>{{ fac.company }}</td><td>{{ fac.honorarium_final }}</td>
+  </tr>
+{% endfor %}
+</table>
+<div id="total">Total amount : {{ total }}</div>
+<br/>
+<p>
+Sincerely,<br/><br/><br/><br/>
+Assistant Dean,WILP Division.
+</p>
+</body>
+</html>
+
+
